@@ -14,12 +14,6 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class HelloWorld extends HttpServlet{
 	
-	/**
-	 *  我们可以将Servlet看作是嵌套了HTML代码的Java类；
-	 *  可以将JSP看做是嵌套了Java代码的HTML页面。
-	 *  注jsp执行过程：容器先将.jsp文件转换成一个.java文件(其实就是将jsp转换一个对应的servlet（含有html代码的）)
-	 *  可以看做，JSP就是Servlet，只是需要用容器将jsp转换成servlet。
-	 */
 	private static final long serialVersionUID = 1L;
 
 	@Override
