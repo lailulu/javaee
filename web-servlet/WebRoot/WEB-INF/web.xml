@@ -12,10 +12,27 @@
       <servlet-name>HelloWorld</servlet-name>
       <servlet-class>org.javaee.servlet.HelloWorld</servlet-class>
   </servlet>
+  <servlet>
+      <servlet-name>LoginServlet</servlet-name>
+      <servlet-class>org.javaee.servlet.LoginServlet</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>RegisterServlet</servlet-name>
+  	<servlet-class>org.javaee.servlet.RegisterServlet</servlet-class>
+  </servlet>
+  
   
   <servlet-mapping>
       <servlet-name>HelloWorld</servlet-name>
       <url-pattern>/HelloWorld</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+      <servlet-name>LoginServlet</servlet-name>
+      <url-pattern>/login</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>RegisterServlet</servlet-name>
+  	<url-pattern>/RegisterServlet</url-pattern>
   </servlet-mapping>
   
 </web-app>
