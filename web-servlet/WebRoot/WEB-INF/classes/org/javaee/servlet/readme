@@ -1,0 +1,100 @@
+1~10：
+1、 我们可以将Servlet看作是嵌套了HTML代码的Java类；
+     可以将JSP看做是嵌套了Java代码的HTML页面。
+    注jsp执行过程：容器先将.jsp文件转换成一个.java文件(其实就是将jsp转换一个对应的servlet（含有html代码的）)
+    可以看做，JSP就是Servlet，只是需要用容器将jsp转换成servlet。
+
+2、get与post方法之间的差别：
+  1）浏览器地址呈现的结果不同（表象）。
+  2）真正的原因在于向服务器端发送请求时的形式是不同的。
+  3）get的请求格式：
+        GET /test/LoginServlet?username=hello&password=word HTTP/1.1
+   4)post的请求格式：
+        POST /test/LoginServlet HTTP/1.1
+        Connection: Keep-Alive
+        username=hello&password=word
+        
+    3、通过浏览器进行文件上传时，一定要使用post方式而绝不能使用get方式。
+    4、通过浏览器地址输入网址的方式来访问服务器资源，全部使用的是get方法请求的。
+    
+    5、客服端、服务器与Servlet/JSP之间的关系
+        生成页面的流程：
+               浏览器（客户端）
+              |          |
+              |          |
+             服务器端（Tomcat）----------》   Servlet
+             
+             
+    6、jsp中的表单form默认(缺省值)的提交方式为：method=”get“;
+     
+    
+    
+    11~20：
+    1.所有的程序操作都在服务器端执行，网络上传送给客户端的仅是得到的结果，这样大大降低了
+    对客户浏览器的要求，即使客户浏览器不支持Java，也可以访问Jsp网页。
+    
+    2.JSP执行过程（JSP最终都会转换为Servlet去执行。）
+    request----->*.jsp--(jsp parser)---->
+                                         (servlet分析器JSDK)--->*.class--（执行）--->response
+                   servlet-------------->  
+                   
+      会将.jsp文件转换成一个.java文件（其实是转换成一个servlet（含有html代码））  ；
+      然后和存在的Servlet一起执行servlet的doget或goPost或service方法。在编译成.class文件，在把结果响应response给客户端。
+      
+   注意：servlet是一个单例模式：可以这样认为当第一次将.jsp转换时，会生成.java文件，当第二次调用（修改等操作）是，不需要转换了，直接从内存中使用。   
+      
+   3.<%java代码 %>：照搬成java代码。   注语句有分号，而且是局部变量。
+     <%=java表达式%>：相当于使用out.println()输出。注表达式没有分号的，在转换成servlet是会自动加上去。
+     <%! int a=3; %>:对应的servlet添加属性或者方法。相当于成员变量（全局变量）eg：test3 ，一般不用，容易被改变。
+     
+     注意：JSP声明的格式：<%! int a=3;%>,脚本段的形式：<% int b=3;%>,当服务器将JSP转换为Servlet时，
+       会将JSP中的声明转换为类的成员变量，而将脚本段转换为方法中的局部变量，Servlet是单实例的，
+    这样成员变量的值就只有一个，每个用户都会访问到它，当修改时，会改变值；而脚本段中的值则是局部变量，每个用户
+    访问的时候各有一份，互不影响。
+     
+     
+   4.注释：
+     （1）、html注释：<!-- -->
+     （2）、 隐藏(jsp)注释:<%-- -->
+     相同点：被注释内容不会显示在页面上
+   区别：（1）html注释，如果注释的内同是Java代码，会执行，但页面上也是个注释
+             （2）jsp注释，有java代码，会忽略，不会发送个客户端。
+             
+   5.包含指令include：<%@ include file="test5_1.jsp" %>
+   6。下面的包在JSP编译已经导入了，所以就不需要载指明了：
+         java.lang.*     
+         javax.servlet.*
+         javax.servlet.jsp.*
+         javax.servlet.http.*
+         
+    7、<jsp:forword>指令用于转向页面，在该指令后面的所有代码都没有机会执行了，因为页面的流程已经转向了另外一个页面了。（可看源代码）
+    8、<jsp:include  >:不只是包含还可以传送参数。   
+    9。JSP内置对象（容器已经帮忙创建了，只要直接调用就可以）
+            JSP有以下九种内置对象，包括：        
+                                                                                                            类型                                                        作用域
+  （重点） request，请求对象                    javax.servlet.ServletRequest的子类          Request
+       response,响应对象
+       pageContext，页面上下文对象
+ （重点）  session，会话对象                    java,servlet.jsp.PageContext        Session
+ （重点）  application，应用程序对象         javax.servlet.ServletContext      Application
+               out，输出对象：发送的内容将是浏览器需要显示的内容
+               config，配置对象
+               page，页面对象
+               exception，异常对象
+               
+    （1）.request对象代表的是来自客服端的请求，例如form表单中填写的信息等
+           使用较多的方法：getParameter   、getParameterNames、getParameterValues 
+           注：getParameter:返回一个结果，但有多个同name是，则只出现第一个name的结果
+                 getParameterValues ：返回同name的一个字符串数组的结果
+            注意：getParameter方法是getParameterValues方法的特例，表示请求参数值只有一个，如果请求参数值有多个，请使用getParameterValues方法。
+            在多选框的情况下，需要使用getParameterValues方法来获取用户所选择的多个复选框的值。
+    （2）.“session”对象代表服务器与客户端所建立的会话，当需要在不同的JSP页面中保留客户信息的情况下使用，比如在线购物、客户会话跟踪等。
+               为什么要用session对象：HTTP（无状态）是一次连接，一次断开；WebServlet对每一个客户端请求都么有历史记忆；Session用来保存客户端状态信息；
+               使用较多的方法：setAttribute("LogName",Name)，getAttribute("LogName")返回Object类型，需要强转需要的类型
+                                   注：当set同一个name时则会替换之前的value值。
+      注意：request和session的区别：session的数据存活周期要比request的大，request的存活周期是请求到响应这么一个过程，session则存在于用户会话的过程当中。
+      （3）.application对象负责提供应用程序在服务器中运行时的一些全局信息，常用的方法有getMimeType和getRealPath等。
+      
+      
+        
+        

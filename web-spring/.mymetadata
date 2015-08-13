@@ -2,12 +2,12 @@
 <project-module
   type="WEB"
   name="web-spring"
-  id="myeclipse.1437549661625"
+  id="web-spring"
   context-root="/web-spring"
   j2ee-spec="5.0"
   archive="web-spring.war">
   <attributes>
-    <attribute name="webrootdir" value="WebRoot" />
+    <attribute name="webrootdir" value="/WebRoot" />
   </attributes>
 </project-module>
 
